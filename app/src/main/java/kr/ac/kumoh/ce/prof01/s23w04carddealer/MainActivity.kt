@@ -16,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(main.root)
 
         //binding.card1.setImageResource(R.drawable.c_2_of_hearts)
-        val c = Random.nextInt(52)
+        //val c = Random.nextInt(52)
+        // TODO: 랜덤으로 변경할 것
+        val c = 37
         Log.i("Test", "$c : ${getCardName(c)}")
 
         val res = resources.getIdentifier(
@@ -29,7 +31,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getCardName(c: Int) : String {
-        val shape = when (c / 13) {
+        // val에서 var로 변경
+        var shape = when (c / 13) {
             0 -> "spades"
             1 -> "diamonds"
             2 -> "hearts"
@@ -40,11 +43,27 @@ class MainActivity : AppCompatActivity() {
         val number = when (c % 13) {
             0 -> "ace"
             in 1..9 -> (c % 13 + 1).toString()
-            10 -> "jack"
-            11 -> "queen"
-            12 -> "king"
+            10 -> {
+                shape = shape.plus("2")
+                "jack"
+            }
+            11 -> {
+                shape = shape.plus("2")
+                "queen"
+            }
+            12 -> {
+                shape = shape.plus("2")
+                "king"
+            }
             else -> "error"
         }
+
+        // 이 방법이 더 나을 듯
+//        if (c % 13 in 10..12)
+//            return "c_${number}_of_${shape}2"
+//        else
+//            return "c_${number}_of_${shape}"
+
         return "c_${number}_of_${shape}"
     }
 }
